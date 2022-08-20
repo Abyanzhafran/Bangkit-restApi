@@ -25,9 +25,8 @@ const auth = (req, res) => {
     if (err) {
       res.status(404).send({
         status: 'fail',
-        message: 'User not found'
+        message: err.sqlMessage
       })
-      throw err
     }
     res.status(200).send({
       status: 'success',
@@ -73,8 +72,7 @@ const addUser = (req, res) => {
   let query = "INSERT INTO tbl_user (id, fullName, username, password, gender, dateOfBirth, phoneNumber, email, photoProfile, latitude, longtitude, insertedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
   db.query(query, getObjVal, (err) => {
     if (err) {
-      res.status(201).send('User failed to add')
-      throw err
+      res.status(201).send({ message: err.sqlMessage })
     }
     res.status(200)
     res.send({
@@ -91,8 +89,7 @@ const getAllUsers = (req, res) => {
   let query = "SELECT * FROM tbl_user"
   db.query(query, (err, result) => {
     if (err) {
-      res.status(404).send('Cannot get users')
-      throw err
+      res.status(404).send({ message: err.sqlMessage })
     }
     res.status(200).send({
       status: 'success',
@@ -109,7 +106,7 @@ const getUserById = (req, res) => {
     if (result.length == 0) {
       res.status(404).send({
         status: 'fail',
-        message: 'User not found'
+        message: err.sqlMessage
       })
     } else if (!err && result.length !== 0) {
       res.status(200).send(result[0])
@@ -168,9 +165,8 @@ const editUserById = (req, res) => {
         res.status(404)
         res.send({
           status: 'fail',
-          message: 'User not found'
+          message: err.sqlMessage
         })
-        throw err
       }
       res.status(200)
       res.send({
@@ -191,9 +187,8 @@ const deleteUserById = (req, res) => {
     if (err) {
       res.status(404).send({
         status: 'fail',
-        message: 'Users failed to delete, id not found'
+        message: err.sqlMessage
       })
-      throw err
     }
     res.status(200).send({
       status: 'success',

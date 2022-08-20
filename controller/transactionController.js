@@ -36,8 +36,7 @@ const beginTransaction = (req, res) => {
   let query = "INSERT INTO tbl_transaction (idTransaction, userId, username, idPurpose, productName, productAmount, price, totalPrice, insertedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
   db.query(query, getObjVal, (err) => {
     if (err) {
-      res.status(201).send('Transaction failed')
-      throw err
+      res.status(201).send({ message: err.sqlMessage })
     }
     res.status(200)
     res.send({
@@ -54,8 +53,7 @@ const getAllTransaction = (req, res) => {
   let query = "SELECT * FROM tbl_transaction"
   db.query(query, (err, result) => {
     if (err) {
-      res.status(404).send('Cannot get transactions')
-      throw err
+      res.status(404).send({ message: err.sqlMessage })
     }
     res.status(200).send({
       status: 'success',
@@ -72,7 +70,7 @@ const getTransactionById = (req, res) => {
     if (result.length == 0) {
       res.status(404).send({
         status: 'fail',
-        message: 'idTransaction not found'
+        message: err.sqlMessage
       })
     } else if (!err && result.length !== 0) {
       res.status(200).send(result[0])
@@ -88,9 +86,8 @@ const deleteTransactionById = (req, res) => {
     if (err) {
       res.status(404).send({
         status: 'fail',
-        message: 'Transaction to delete, id not found'
+        message: err.sqlMessage
       })
-      throw err
     }
     res.status(200).send({
       status: 'success',

@@ -74,8 +74,7 @@ const addSeller = (req, res) => {
     let query = "INSERT INTO tbl_seller (id, userId, shopName, province, city, streetName, detailStreet, skill, sellerPhoto, sellerName, phoneNumber, email, insertedAt, latitude, longtitude) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     db.query(query, getObjVal, (err) => {
       if (err) {
-        res.status(201).send('Seller failed to add')
-        throw err
+        res.status(201).send({ message: err.sqlMessage })
       }
       res.status(200)
       res.send({
@@ -95,8 +94,7 @@ const getAllSellers = (req, res) => {
   let query = "SELECT * FROM tbl_seller"
   db.query(query, (err, result) => {
     if (err) {
-      res.status(404).send('Cannot get sellers')
-      throw err
+      res.status(404).send({ message: err.sqlMessage })
     }
     res.status(200).send({
       status: 'success',
@@ -113,7 +111,7 @@ const getSellerById = (req, res, h) => {
     if (result.length == 0) {
       res.status(404).send({
         status: 'fail',
-        message: 'Seller not found'
+        message: err.sqlMessage
       })
     } else if (!err && result.length !== 0) {
       res.status(200).send(result[0])
@@ -129,7 +127,7 @@ const getSellerByUserId = (req, res, h) => {
     if (result.length == 0) {
       res.status(404).send({
         status: 'fail',
-        message: 'Seller not found'
+        message: err.sqlMessage
       })
     } else if (!err && result.length !== 0) {
       res.status(200).send(result[0])
@@ -178,9 +176,8 @@ const editSellerById = (req, res) => {
       res.status(404)
       res.send({
         status: 'fail',
-        message: 'Seller not found'
+        message: err.sqlMessage
       })
-      throw err
     }
     res.status(200)
     res.send({
@@ -198,9 +195,8 @@ const deleteSellerById = (req, res) => {
     if (err) {
       res.status(404).send({
         status: 'fail',
-        message: 'Seller failed to delete, id not found'
+        message: err.sqlMessage
       })
-      throw err
     }
     res.status(200).send({
       status: 'success',
