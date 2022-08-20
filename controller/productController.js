@@ -63,8 +63,7 @@ const addProduct = (req, res, next) => {
     let query = "INSERT INTO tbl_product (id, sellerId, productPhoto, name, category, definition, price_1, price_2, insertedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
     db.query(query, getObjVal, (err) => {
       if (err) {
-        res.status(201).send('Product failed to add')
-        throw err
+        res.status(201).send({ message: err.sqlMessage })
       }
       res.status(200).send({
         status: 'success',
@@ -83,8 +82,7 @@ const getAllProduct = (req, res) => {
   let query = "SELECT * FROM tbl_product"
   db.query(query, (err, result) => {
     if (err) {
-      res.status(404).send('Cannot get products')
-      throw err
+      res.status(404).send({ message: err.sqlMessage })
     }
     res.status(200).send({
       status: 'success',
@@ -101,7 +99,7 @@ const getProductById = (req, res) => {
     if (result.length == 0) {
       res.status(404).send({
         status: 'fail',
-        message: 'Product not found'
+        message: err.sqlMessage
       })
     } else if (!err && result.length !== 0) {
       res.status(200).send(result[0])
@@ -157,9 +155,8 @@ const editProductById = (req, res) => {
       res.status(404)
       res.send({
         status: 'fail',
-        message: 'Failed to update product, id not found'
+        message: err.sqlMessage
       })
-      throw err
     }
     res.status(200)
     res.send({
@@ -177,9 +174,8 @@ const deleteProductById = (req, res) => {
     if (err) {
       res.status(404).send({
         status: 'fail',
-        message: 'Product failed to delete, id not found'
+        message: err.sqlMessage
       })
-      throw err
     }
     res.status(200).send({
       status: 'success',

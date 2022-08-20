@@ -7,7 +7,6 @@ const sellerRouter = require('./router/seller')
 const productRouter = require('./router/product')
 const searchRouter = require('./router/search')
 const transactionRouter = require('./router/transaction')
-const imageRouter = require('./router/image')
 const commentRouter = require('./router/comment')
 const process = require('process'); // Required to mock environment variables
 
@@ -24,7 +23,6 @@ app.use('/seller', sellerRouter)
 app.use('/product', productRouter)
 app.use('/search', searchRouter)
 app.use('/transaction', transactionRouter)
-app.use('/image', imageRouter)
 app.use('/comment', commentRouter)
 
 // for testing
