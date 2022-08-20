@@ -28,8 +28,7 @@ const addComment = (req, res) => {
   let query = "INSERT INTO tbl_comment (id, userId, username, comment, rating) VALUES (?, ?, ?, ?, ?)"
   db.query(query, getObjVal, (err) => {
     if (err) {
-      res.status(201).send('Comment failed to add')
-      throw err
+      res.status(201).send({ message: err.sqlMessage })
     }
     res.status(200)
     res.send({
@@ -46,7 +45,7 @@ const getAllComment = (req, res) => {
   let query = "SELECT * FROM tbl_comment"
   db.query(query, (err, result) => {
     if (err) {
-      res.status(404).send('Cannot get comments')
+      res.status(404).send({ message: err.sqlMessage })
       throw err
     }
     res.status(200).send({
@@ -64,7 +63,7 @@ const getCommentById = (req, res) => {
     if (result.length == 0) {
       res.status(404).send({
         status: 'fail',
-        message: 'Comment not found'
+        message: err.sqlMessage
       })
     } else if (!err && result.length !== 0) {
       res.status(200).send(result[0])
