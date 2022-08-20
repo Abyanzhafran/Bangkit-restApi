@@ -10,7 +10,7 @@ const { Storage } = require('@google-cloud/storage');
 const storage = new Storage();
 
 // add your bucket name here boyy
-const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET)
+const bucket = storage.bucket('cogent-tempo-351103.appspot.com')
 
 const getSellerTest = (req, res) => {
   res.send('this is seller controller')
