@@ -60,4 +60,4 @@ env_variables:
 
 ## For local development
 
-- Use 'dev-migrate' branch
+- Use 'dev-v1' branch
