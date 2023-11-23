@@ -1,0 +1,609 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: D-Jahit rest-api
+tags:
+  - name: User
+    description: Operation about users
+  - name: Comment
+    description: Operation about comment
+  - name: Seller
+    description: Operation about seller
+  - name: Product
+    description: Operation about product
+  - name: Transaction
+    description: Operation about transaction
+  - name: Login
+    description: Operation about login
+paths:
+  /api/user:
+    get:
+      tags:
+        - User
+      summary: Get all users
+      description: Retrieves a list of all users.
+      responses:
+        "200":
+          description: Successful operation
+      security:
+        - jwt: []
+    post:
+      tags:
+        - User
+      summary: Add a new user
+      description: Adds a new user to the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: User Created
+        "400":
+          description: Validation Exception
+      security:
+        - jwt: []
+  /api/user/{userId}:
+    get:
+      tags:
+        - User
+      summary: Get user by ID
+      description: Retrieves a user by their ID.
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user to be retrieved
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+        "404":
+          description: User Not Found
+      security:
+        - jwt: []
+    patch:
+      tags:
+        - User
+      summary: Update user by ID
+      description: Updates a user by their ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUser"
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user to be updated
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+        "404":
+          description: User Not Found
+        "400":
+          description: Validation Exception
+      security:
+        - jwt: []
+    delete:
+      tags:
+        - User
+      summary: Delete user by ID
+      description: Deletes a user by their ID.
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+        "404":
+          description: User Not Found
+      security:
+        - jwt: []
+  /api/comment:
+    post:
+      tags:
+        - Comment
+      summary: Add a new comment
+      description: Adds a new comment to the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Comment"
+      responses:
+        "201":
+          description: Comment Created
+        "400":
+          description: Validation Exception
+      security:
+        - jwt: []
+    get:
+      tags:
+        - Comment
+      summary: Get all comments
+      description: Retrieves a list of all comments.
+      responses:
+        "200":
+          description: Successful operation
+      security:
+        - jwt: []
+  /api/comment/{commentId}:
+    get:
+      tags:
+        - Comment
+      summary: Get comment by ID
+      description: Retrieves a comment by their ID.
+      parameters:
+        - name: commentId
+          in: path
+          description: ID of the comment to be retrieved
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+        "404":
+          description: comment Not Found
+      security:
+        - jwt: []
+  /api/seller:
+    post:
+      tags:
+        - Seller
+      summary: Add a new seller
+      description: Adds a new seller to the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddSeller"
+      responses:
+        "201":
+          description: Seller Created
+        "400":
+          description: Validation Exception
+      security:
+        - jwt: []
+    get:
+      tags:
+        - Seller
+      summary: Get all sellers
+      description: Retrieves a list of all sellers.
+      responses:
+        "200":
+          description: Successful operation
+      security:
+        - jwt: []
+  /api/seller/{sellerId}:
+    get:
+      tags:
+        - Seller
+      summary: Get all sellers
+      description: Retrieves a list of all sellers.
+      responses:
+        "200":
+          description: Successful Operation
+        "404":
+          description: Seller Not Found
+      security:
+        - jwt: []
+    delete:
+      tags:
+        - Seller
+      summary: Delete seller by ID
+      description: Deletes a seller by their ID.
+      parameters:
+        - name: sellerId
+          in: path
+          description: ID of the seller to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful Operation
+        "404":
+          description: Seller Not Found
+      security:
+        - jwt: []
+    patch:
+      tags:
+        - Seller
+      summary: Update seller by ID
+      description: Updates a seller by their ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSeller"
+      parameters:
+        - name: sellerId
+          in: path
+          description: ID of the seller to be updated
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful Operation
+        "400":
+          description: Validation Exception
+        "404":
+          description: Seller Not Found
+      security:
+        - jwt: []
+  /api/product:
+    post:
+      tags:
+        - Product
+      summary: Add a new product
+      description: Adds a new product to the system.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/AddProduct"
+      responses:
+        "201":
+          description: Product Created
+        "400":
+          description: Validation Exception
+      security:
+        - jwt: []
+    get:
+      tags:
+        - Product
+      summary: Get all products
+      description: Retrieves a list of all products.
+      responses:
+        "200":
+          description: Successful operation
+      security:
+        - jwt: []
+  /api/product/{productId}:
+    get:
+      tags:
+        - Product
+      summary: Get product by ID
+      description: Retrieves a product by its ID.
+      parameters:
+        - name: productId
+          in: path
+          description: ID of the product to be retrieved
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+      security:
+        - jwt: []
+    delete:
+      tags:
+        - Product
+      summary: Delete product by ID
+      description: Deletes a product by its ID.
+      parameters:
+        - name: productId
+          in: path
+          description: ID of the product to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+        "404":
+          description: Product Not Found
+      security:
+        - jwt: []
+    patch:
+      tags:
+        - Product
+      summary: Update product by ID
+      description: Updates a product by its ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProduct"
+      parameters:
+        - name: productId
+          in: path
+          description: ID of the product to be updated
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+        "404":
+          description: Product Not Found
+        "400":
+          description: Validation Exception
+      security:
+        - jwt: []
+  /api/transaction:
+    post:
+      tags:
+        - Transaction
+      summary: Add a new transaction
+      description: Adds a new transaction to the system.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/AddTransaction"
+      responses:
+        "200":
+          description: Successful Operation
+        "400":
+          description: Validation Exception
+      security:
+        - jwt: []
+    get:
+      tags:
+        - Transaction
+      summary: Get all transactions
+      description: Retrieves a list of all transactions.
+      responses:
+        "200":
+          description: Successful operation
+      security:
+        - jwt: []
+  /api/transaction/{transactionId}:
+    get:
+      tags:
+        - Transaction
+      summary: Get transaction by ID
+      description: Retrieves a transaction by its ID.
+      parameters:
+        - name: transactionId
+          in: path
+          description: ID of the transaction to be retrieved
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+      security:
+        - jwt: []
+    delete:
+      tags:
+        - Transaction
+      summary: Delete transaction by ID
+      description: Deletes a transaction by its ID.
+      parameters:
+        - name: transactionId
+          in: path
+          description: ID of the transaction to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+        "404":
+          description: Transaction Not Found
+      security:
+        - jwt: []
+  /login:
+    post:
+      tags:
+        - Login
+      summary: User Login
+      description: Endpoint for user authentication.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLogin"
+      responses:
+        "200":
+          description: Successful login
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        fullName:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        gender:
+          type: string
+        dateOfBirth:
+          type: string
+        phoneNumber:
+          type: integer
+        email:
+          type: string
+        photoProfile:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+    UpdateUser:
+      type: object
+      properties:
+        fullName:
+          type: string
+        password:
+          type: string
+        gender:
+          type: string
+        dateOfBirth:
+          type: string
+        phoneNumber:
+          type: integer
+        email:
+          type: string
+        photoProfile:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+    Comment:
+      type: object
+      properties:
+        userId:
+          type: string
+        username:
+          type: string
+        comment:
+          type: string
+        rating:
+          type: integer
+    AddSeller:
+      type: object
+      properties:
+        userId:
+          type: string
+        shopName:
+          type: string
+        province:
+          type: string
+        city:
+          type: string
+        detailStreet:
+          type: string
+        skill:
+          type: string
+        sellerPhoto:
+          type: string
+        sellerName:
+          type: string
+        phoneNumber:
+          type: string
+        email:
+          type: string
+        latitude:
+          type: string
+        longitude:
+          type: string
+    UpdateSeller:
+      type: object
+      properties:
+        shopName:
+          type: string
+        province:
+          type: string
+        city:
+          type: string
+        detailStreet:
+          type: string
+        skill:
+          type: string
+        sellerPhoto:
+          type: string
+        sellerName:
+          type: string
+        phoneNumber:
+          type: string
+        email:
+          type: string
+        latitude:
+          type: string
+        longitude:
+          type: string
+    AddProduct:
+      type: object
+      properties:
+        sellerId:
+          type: string
+        file:
+          type: string
+          format: binary
+        name:
+          type: string
+        category:
+          type: string
+        definition:
+          type: string
+        stock:
+          type: integer
+        price:
+          type: integer
+    UpdateProduct:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+        name:
+          type: string
+        category:
+          type: string
+        definition:
+          type: string
+        stock:
+          type: integer
+        price:
+          type: integer
+    AddTransaction:
+      type: object
+      properties:
+        userId:
+          type: string
+        productId:
+          type: string
+        username:
+          type: string
+        productName:
+          type: string
+        quantity:
+          type: integer
+        price:
+          type: integer
+        totalAmount:
+          type: integer
+    UserLogin:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    ValidationError:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+      required:
+        - status
+        - message
+
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT authorization. Include the JWT token in the Authorization header.

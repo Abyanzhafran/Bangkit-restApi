@@ -1,43 +1,30 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 const {
-  getSellerTest,
+  validateSellerInsert,
+  validateSellerUpdate,
+} = require("../middlewares/validators/sellerValidator");
+
+const {
   addSeller,
-  getAllSellers,
-  getSellerById,
-  getSellerByUserId,
-  editSellerById,
-  deleteSellerById
-} = require('../controller/sellerController')
+  getAll,
+  getById,
+  deleteById,
+  updateById,
+} = require("../controllers/sellerController");
 
-// [START gae_storage_app]
-const Multer = require('multer');
-
-const multer = Multer({
-  storage: Multer.memoryStorage(),
-  limits: {
-    fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
-  },
+router.get("/test", (req, res) => {
+  res.send("helllow");
 });
 
-// define the route
-router.get('/default', (req, res) => {
-  res.send('Sellers home page')
-})
+router.get("/", getAll);
 
-router.get('/test', getSellerTest)
+router.get("/:sellerId", getById);
 
-// start here
-router.post('/', multer.single('sellerPhoto'), addSeller)
+router.post("/", validateSellerInsert, addSeller);
 
-router.get('/', getAllSellers)
+router.delete("/:sellerId", deleteById);
 
-router.get('/:id', getSellerById)
+router.patch("/:sellerId", validateSellerUpdate, updateById);
 
-router.get('/user-id/:userId', getSellerByUserId)
-
-router.put('/:id', editSellerById)
-
-router.delete('/:id', deleteSellerById)
-
-module.exports = router
+module.exports = router;

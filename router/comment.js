@@ -1,18 +1,23 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 const {
-  getCommentTest,
+  validateComment,
+} = require("../middlewares/validators/commentValidator");
+
+const {
   addComment,
-  getAllComment,
-  getCommentById
-} = require('../controller/commentController')
+  getAll,
+  getById,
+} = require("../controllers/commentController");
 
-router.get('/test', getCommentTest)
+router.get("/test", (req, res) => {
+  res.send("helllow comment");
+});
 
-router.post('/', addComment)
+router.get("/", getAll);
 
-router.get('/', getAllComment)
+router.get("/:commentId", getById);
 
-router.get('/:id', getCommentById)
+router.post("/", validateComment, addComment);
 
-module.exports = router
+module.exports = router;

@@ -1,21 +1,26 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 const {
-  getTransactionTest,
-  beginTransaction,
-  getAllTransaction,
-  getTransactionById,
-  deleteTransactionById
-} = require('../controller/transactionController')
+  validateTransactionInsert,
+} = require("../middlewares/validators/transactionValidator");
 
-router.get('/test', getTransactionTest)
+const {
+  addTransaction,
+  getAll,
+  getById,
+  deleteById,
+} = require("../controllers/transactionController");
 
-router.post('/', beginTransaction)
+router.get("/test", (req, res) => {
+  res.send("helllow transaction");
+});
 
-router.get('/', getAllTransaction)
+router.get("/", getAll);
 
-router.get('/:idTransaction', getTransactionById)
+router.get("/:transactionId", getById);
 
-router.delete('/:idTransaction', deleteTransactionById)
+router.post("/", validateTransactionInsert, addTransaction);
 
-module.exports = router
+router.delete("/:transactionId", deleteById);
+
+module.exports = router;

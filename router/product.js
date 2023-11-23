@@ -1,37 +1,38 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 const {
-  getProductTest,
+  validateProductInsert,
+  validateProductUpdate,
+} = require("../middlewares/validators/productValidator");
+const uploadFile = require("../middlewares/custom/imageUploadProduction");
+
+const {
   addProduct,
-  getAllProduct,
-  getProductById,
-  getProductBySellerId,
-  editProductById,
-  deleteProductById
-} = require('../controller/productController')
+  getAll,
+  getById,
+  deleteById,
+  updateById,
+} = require("../controllers/productController");
 
-// [START gae_storage_app]
-const Multer = require('multer');
-
-const multer = Multer({
-  storage: Multer.memoryStorage(),
-  limits: {
-    fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
-  },
+router.get("/test", (req, res) => {
+  res.send("test product");
 });
 
-router.get('/test', getProductTest)
+router.get("/", getAll);
 
-router.post('/', multer.single('productPhoto'), addProduct)
+router.get("/:productId", getById);
 
-router.get('/', getAllProduct)
+// We use multiple middleware like this
+// First one is for uploadImage and the other's for product data validator
+router.post(
+  "/",
+  uploadFile.imageUploadMiddleware,
+  validateProductInsert,
+  addProduct
+);
 
-router.get('/:id', getProductById)
+router.delete("/:productId", deleteById);
 
-router.get('/seller/:sellerId', getProductBySellerId)
+router.patch("/:productId", validateProductUpdate, updateById);
 
-router.put('/:id', editProductById)
-
-router.delete('/:id', deleteProductById)
-
-module.exports = router
+module.exports = router;

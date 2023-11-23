@@ -1,35 +1,30 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 const {
-  auth,
+  validateUserInsert,
+  validateUserUpdate,
+} = require("../middlewares/validators/userValidator");
+
+const {
+  getAll,
+  getById,
   addUser,
-  getAllUsers,
-  getUserById,
-  editUserById,
-  deleteUserById
-} = require('../controller/userController')
+  deleteById,
+  updateById,
+} = require("../controllers/userController");
 
-// [START gae_storage_app]
-const Multer = require('multer');
-
-const multer = Multer({
-  storage: Multer.memoryStorage(),
-  limits: {
-    fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
-  },
+router.get("/test", (req, res) => {
+  res.send("helllow");
 });
 
-// users routing
-router.post('/', addUser)
+router.get("/", getAll);
 
-router.post('/auth', auth)
+router.get("/:userId", getById);
 
-router.get('/', getAllUsers)
+router.post("/", validateUserInsert, addUser);
 
-router.get('/:id', getUserById)
+router.delete("/:userId", deleteById);
 
-router.put('/:id', multer.single('photoProfile'), editUserById)
+router.patch("/:userId", validateUserUpdate, updateById);
 
-router.delete('/:id', deleteUserById)
-
-module.exports = router
+module.exports = router;
