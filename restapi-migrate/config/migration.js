@@ -101,7 +101,7 @@ const migration = async () => {
 
     await db.query(
       `
-        INSERT INTO tbl_user 
+        INSERT IGNORE INTO tbl_user 
             (
                 userId, fullName, username, password, gender, dateOfBirth, phoneNumber, email, photoProfile, latitude, longtitude, insertedAt, updatedAt
             ) 
@@ -171,7 +171,7 @@ const migration = async () => {
 
     await db.query(
       `
-        INSERT INTO tbl_seller 
+        INSERT IGNORE INTO tbl_seller 
             (
                 sellerId, userId, shopName, province, city, detailStreet, skill, sellerPhoto, sellerName, phoneNumber, email, latitude, longtitude
             ) 
@@ -226,7 +226,7 @@ const migration = async () => {
 
     await db.query(
       `
-        INSERT INTO tbl_product 
+        INSERT IGNORE INTO tbl_product 
             (productId, sellerId, productPhoto, name, category, definition, stock, price, insertedAt, updatedAt) 
             VALUES 
             (

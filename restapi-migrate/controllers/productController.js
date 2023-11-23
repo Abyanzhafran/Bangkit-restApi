@@ -72,7 +72,6 @@ const addProduct = async (req, res, next) => {
     // Get uploaded imageUrl from imageUpload middleware
     const imageUrl = req.uploadedImageUrl;
 
-    // Image validation has been done in the middleware
     const validate = validationResult(req);
 
     if (validate.errors.length !== 0) {

@@ -22,13 +22,13 @@ const storage = multer.diskStorage({
     cb(null, path.join(__dirname, "../../bucket_dev"));
   },
   filename: (req, file, cb) => {
-    const extname = path.extname(file.originalname);
-    const timestamp = Date.now();
-    const fileName = `image-${timestamp}${extname}`;
-    cb(null, fileName);
+    const absolutePath =
+      "E:\\CODE\\PROJECT\\BANGKIT\\temp-bangkit-update (dev-migrate)\\restapi-migrate\\bucket_dev";
+    cb(null, file.originalname);
+    const getPath = `${absolutePath}/${file.originalname}`;
 
     // Add the uploaded file name to the request object
-    req.uploadedFilename = fileName;
+    req.uploadedImageUrl = getPath;
   },
 });
 

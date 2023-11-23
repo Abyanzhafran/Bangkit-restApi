@@ -19,9 +19,6 @@ app.use(cors());
 // enable middleware
 app.use(express.json());
 
-// trust proxy config for GAE
-app.set("trust proxy", true);
-
 // handle error message
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
@@ -48,7 +45,7 @@ app.use((err, req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.status(200).send("Welcome, helloowww broroooooooo");
+  res.status(200).send("Welcome, helloowww");
 });
 
 // Public route for login
@@ -62,35 +59,19 @@ app.use("/api/seller", sellerRouter);
 app.use("/api/product", productRouter);
 app.use("/api/transaction", transactionRouter);
 
-// // folder to serve file statically
-// // disable this for production
-// app.use("/bucket_dev", express.static("bucket_dev"));
+// folder to serve file statically
+app.use("/bucket_dev", express.static("bucket_dev"));
 
-// [Start the server GAE]
-const PORT = parseInt(process.env.PORT) || 8080;
+const PORT = parseInt(process.env.PORT) || 3000;
+const HOST = process.env.HOST || "localhost";
+
 const runApp = async () => {
   await migration();
 
   app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`);
+    console.log(`App listening on http://${HOST}:${PORT}/`);
     console.log("Press Ctrl+C to quit.");
   });
 };
 
 runApp();
-// [END gae_node_request_example]
-
-// DEVELOPMENT
-// const PORT = parseInt(process.env.PORT) || 3000;
-// const HOST = process.env.HOST || "localhost";
-
-// const runApp = async () => {
-//   await migration();
-
-//   app.listen(PORT, () => {
-//     console.log(`App listening on http://${HOST}:${PORT}/`);
-//     console.log("Press Ctrl+C to quit.");
-//   });
-// };
-
-// runApp();

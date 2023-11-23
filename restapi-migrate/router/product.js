@@ -4,7 +4,7 @@ const {
   validateProductInsert,
   validateProductUpdate,
 } = require("../middlewares/validators/productValidator");
-const uploadFile = require("../middlewares/custom/imageUploadProduction");
+const uploadFile = require("../middlewares/custom/imageUpload");
 
 const {
   addProduct,

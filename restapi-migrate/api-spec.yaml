@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: D-Jahit rest-api
+  title: Bangkit API Migrate
 tags:
   - name: User
     description: Operation about users
